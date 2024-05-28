@@ -1,4 +1,4 @@
-package pl.java.restassured.test;
+package pl.java.restassured.object;
 
 
 import lombok.*;
@@ -15,8 +15,3 @@ public class Person {
 
 }
 
-@RequiredArgsConstructor
-class Car {
-    private final String brand;
-    private int age;
-}

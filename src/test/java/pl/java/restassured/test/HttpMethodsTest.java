@@ -11,10 +11,8 @@ import pl.java.restassured.pojo.Category;
 import pl.java.restassured.pojo.Pet;
 import pl.java.restassured.pojo.Tag;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedMap;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;

@@ -1,6 +1,9 @@
 package pl.java.restassured.test;
 
 
+import pl.java.restassured.object.Car;
+import pl.java.restassured.object.Person;
+
 public class MyFirstRestAssuredAutomtedTest {
     public static void main (String [] args){
 
