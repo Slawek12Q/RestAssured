@@ -6,6 +6,25 @@ import static io.restassured.RestAssured.given;
 
 public class ApiTest {
 
+    String pet = "{\n" +
+            "  \"id\": 4,\n" +
+            "  \"category\": {\n" +
+            "    \"id\": 1,\n" +
+            "    \"name\": \"cats\"\n" +
+            "  },\n" +
+            "  \"name\": \"Filip\",\n" +
+            "  \"photoUrls\": [\n" +
+            "    \"http://photos.com/dog1.jpg\"\n" +
+            "  ],\n" +
+            "  \"tags\": [\n" +
+            "    {\n" +
+            "      \"id\": 1,\n" +
+            "      \"name\": \"dogs-category\"\n" +
+            "    }\n" +
+            "  ],\n" +
+            "  \"status\": \"available\"\n" +
+            "}";
+
     @Test
     public void firstTest() {
         given()
@@ -15,25 +34,6 @@ public class ApiTest {
 
     @Test
     public void sendPost() {
-        String pet = "{\n" +
-                "  \"id\": 4,\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"dogs\"\n" +
-                "  },\n" +
-                "  \"name\": \"Reksio\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"http://photos.com/dog1.jpg\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"dogs-category\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"available\"\n" +
-                "}";
-
         given().log().uri().log().method().body(pet).contentType("application/json")
                 .when().post("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
                 .then().log().all().statusCode(200);
@@ -69,5 +69,11 @@ public class ApiTest {
                 .then().log().all().statusCode(200);
     }
 
+    @Test
+    public void sentPut() {
 
+        given().log().all().body(pet).contentType("application/json")
+                .when().put("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
+                .then().log().all().statusCode(200);
+    }
 }
