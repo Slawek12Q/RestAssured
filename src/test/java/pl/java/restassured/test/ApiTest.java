@@ -76,4 +76,13 @@ public class ApiTest {
                 .when().put("https://swaggerpetstore.przyklady.javastart.pl/v2/pet")
                 .then().log().all().statusCode(200);
     }
+
+    @Test
+    public void sendDelete() {
+
+        given().log().all().contentType("application/json")
+                .pathParam("petId", 4)
+                .when().delete("https://swaggerpetstore.przyklady.javastart.pl/v2/pet/{petId}")
+                .then().log().all().statusCode(200);
+    }
 }
