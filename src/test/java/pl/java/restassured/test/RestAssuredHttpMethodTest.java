@@ -1,6 +1,8 @@
 package pl.java.restassured.test;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Headers;
@@ -24,12 +26,14 @@ public class RestAssuredHttpMethodTest {
         RestAssured.baseURI = "https://swaggerpetstore.przyklady.javastart.pl";
         RestAssured.basePath = "v2";
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+        RestAssured.requestSpecification = new RequestSpecBuilder().setContentType("application/json").build();
+        RestAssured.responseSpecification = new ResponseSpecBuilder().expectStatusCode(200).build();
     }
 
     Category category = Category.builder().name("dogs").id(1).build();
     Tag tag = Tag.builder().name("dogs-category").id(1).build();
     Pet reksioDog = Pet.builder().id(4).category(category).photoUrls(Collections.singletonList("http://photos.com/dog1.jpg")).tags(Collections.singletonList(tag)).status("available").name("Reksio").build();
-    Pet burekDog = Pet.builder().id(5).category(Category.builder().name("doberman").id(2).build()).photoUrls(Collections.singletonList("http://photos.com/dog1.jpg")).tags(Collections.singletonList(tag)).status("available").name("Reksio").build();
+    Pet burekDog = Pet.builder().id(5).category(Category.builder().name("doberman").id(2).build()).photoUrls(Collections.singletonList("http://photos.com/dog1.jpg")).tags(Collections.singletonList(tag)).status("available").name("Burek").build();
 
     User user = User.builder().id(200).username("firsuser").firstName("Adam").lastName("Smith").email("adam.smith@gmail.com").password("123456").phone("+111000444").userStatus(100).build();
 
@@ -73,5 +77,18 @@ public class RestAssuredHttpMethodTest {
         assertEquals(responseHeaders.get("Content-Type").getValue(), "application/json", "Content type header");
         assertEquals(responseHeaders.get("Server").getValue(), "openresty", "Server header");
         assertTrue(cookies.isEmpty(), "Cookies are empty");
+    }
+
+    @Test
+    public void addAndCheckNewPet() {
+
+        given().body(burekDog)
+                .when().post("pet");
+
+        Pet pet = given().pathParam("petId", 5)
+                .when().get("pet/{petId}")
+                .then().extract().as(Pet.class);
+
+        System.out.println(pet);
     }
 }
