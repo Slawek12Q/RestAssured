@@ -85,10 +85,11 @@ public class RestAssuredHttpMethodTest {
         given().body(burekDog)
                 .when().post("pet");
 
-        Pet pet = given().pathParam("petId", 5)
+        long time = given().pathParam("petId", 5)
                 .when().get("pet/{petId}")
-                .then().extract().as(Pet.class);
+                .then().extract().time();
 
-        System.out.println(pet);
+        System.out.println(time);
+        assertTrue(time < 1000, "Time is too big");
     }
 }
